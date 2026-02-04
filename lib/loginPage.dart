@@ -17,72 +17,104 @@ class userLoginState extends State<userLogin> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start, // Vertical Axis
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
+    return Scaffold(
+      body: Center(
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 300),
+          padding: const EdgeInsets.all(16),
+          child: Form(
+            key: _formKey,
             child: Column(
+              mainAxisSize: MainAxisSize.min, // Vertical Axis
               children: [
+                Image.asset('assets/images/logo.png'),
+
+                const SizedBox(height: 16),
+
                 //email
                 TextFormField(
                   keyboardType: TextInputType.emailAddress,
-                  decoration: const InputDecoration(labelText: 'Email'),
-
+                  decoration: const InputDecoration(
+                    labelText: 'Email',
+                    hintText: 'Enter your email',
+                    prefixIcon: Icon(Icons.email_outlined),
+                    border: OutlineInputBorder(),
+                  ),
+                  //validator
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please return scrivi qualcosa AO';
+                      return 'Ao movite';
+                    }
+                    //controllo per i caratteri
+                    bool emailValid = RegExp(
+                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+                    ).hasMatch(value);
+                    if (!emailValid) {
+                      return 'Please enter a valid email';
                     }
                     return null;
                   },
                 ),
 
+                const SizedBox(height: 16), //spazio tra email e pwd
                 //password
                 TextFormField(
-                  obscureText: true,
+                  obscureText: _obscurePassword,
                   decoration: InputDecoration(
-                  labelText:
-                  'Password',
-                //toggle hidden pwd
+                    labelText: 'Password',
+                    hintText: 'Enter your password',
+                    prefixIcon: const Icon(Icons.lock_outline),
+                    border: OutlineInputBorder(),
+                    //toggle hidden pwd
                     suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscurePassword
-                          ? Icons.visibility_off
-                          : Icons.visibility,
+                      icon: Icon(
+                        _obscurePassword
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _obscurePassword = !_obscurePassword;
+                        });
+                      },
                     ),
-                    onPressed: () {
-                      setState(() {
-                        _obscurePassword = !_obscurePassword;
-                      });
-                    },
                   ),
-                  ),
-                  
+
                   //obscure || visibile pwd
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please return scrivi qualcosa AO';
+                      return 'Enter your password';
+                    }
+                    if (value.length < 8) {
+                      return 'At Least 8 characters';
                     }
                     return null;
                   },
+                ),
+
+                const SizedBox(height: 16), //spazio tra pwd e login button
+
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        // login ok
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Login Ok')),
+                        );
+                      }
+                    },
+                    child: const Padding(
+                      padding: EdgeInsets.all(12),
+                      child: Text('Submit', style: TextStyle(fontSize: 16)),
+                    ),
+                  ),
                 ),
               ],
             ),
           ),
-          ElevatedButton(
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                // login ok
-                ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(const SnackBar(content: Text('Login premuto')));
-              }
-            },
-            child: const Text('Submit'),
-          ),
-        ],
+        ),
       ),
     );
   }
