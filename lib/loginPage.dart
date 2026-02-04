@@ -98,15 +98,24 @@ class userLoginState extends State<userLogin> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromRGBO(227, 0, 58, 1),
+                    ),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         // redirect to homePage
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomePage()),
+                        );
                       }
                     },
                     child: const Padding(
                       padding: EdgeInsets.all(12),
-                      child: Text('Submit', style: TextStyle(fontSize: 16)),
+                      child: Text(
+                        'LOGIN',
+                        style: TextStyle(fontSize: 16, color: Colors.white),
+                      ),
                     ),
                   ),
                 ),
