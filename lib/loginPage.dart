@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'homePage.dart';
 
 //Create Form Widget
 class userLogin extends StatefulWidget {
@@ -99,10 +100,8 @@ class userLoginState extends State<userLogin> {
                   child: ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        // login ok
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Login Ok')),
-                        );
+                        // redirect to homePage
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
                       }
                     },
                     child: const Padding(
