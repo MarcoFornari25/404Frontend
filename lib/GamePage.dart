@@ -106,9 +106,7 @@ Widget _chatInput() {
                     ),
                   ),
 
-                  Container(
-                    height: 60,
-                    color: Colors.blueAccent,
+                  Container(      
                     alignment: Alignment.center,
                     child: Column(children: [_chatInput()]),
                   ),
