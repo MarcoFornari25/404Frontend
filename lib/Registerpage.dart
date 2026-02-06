@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:frontend_404dungeon/Registerpage.dart';
-import 'homePage.dart';
+import 'loginPage.dart';
 
-//Create Form Widget
-class userLogin extends StatefulWidget {
-  const userLogin({super.key}); //costruttore del widget
-  //serve per identificare il widget nel grafo ad albero
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
+
   @override
-  userLoginState createState() {
-    return userLoginState();
-  }
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-//create class
-class userLoginState extends State<userLogin> {
+class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
+
   bool _obscurePassword = true;
+  bool _obscureConfirmPassword = true;
+
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -27,13 +26,31 @@ class userLoginState extends State<userLogin> {
           child: Form(
             key: _formKey,
             child: Column(
-              mainAxisSize: MainAxisSize.min, // Vertical Axis
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Image.asset('assets/images/logo.png'),
 
                 const SizedBox(height: 16),
 
-                //email
+                // name
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: 'Name',
+                    hintText: 'Enter your name',
+                    prefixIcon: Icon(Icons.person_outline),
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Enter your name';
+                    }
+                    return null;
+                  },
+                ),
+
+                const SizedBox(height: 16),
+
+                // email
                 TextFormField(
                   keyboardType: TextInputType.emailAddress,
                   decoration: const InputDecoration(
@@ -42,15 +59,12 @@ class userLoginState extends State<userLogin> {
                     prefixIcon: Icon(Icons.email_outlined),
                     border: OutlineInputBorder(),
                   ),
-
-                  //validator
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Ao movite';
+                      return 'Enter your email';
                     }
-                    //controllo per i caratteri
                     bool emailValid = RegExp(
-                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+                      r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
                     ).hasMatch(value);
                     if (!emailValid) {
                       return 'Please enter a valid email';
@@ -59,18 +73,17 @@ class userLoginState extends State<userLogin> {
                   },
                 ),
 
-                //spazio tra email e pwd
                 const SizedBox(height: 16),
 
-                //password
+                // password
                 TextFormField(
+                  controller: _passwordController,
                   obscureText: _obscurePassword,
                   decoration: InputDecoration(
                     labelText: 'Password',
                     hintText: 'Enter your password',
                     prefixIcon: const Icon(Icons.lock_outline),
-                    border: OutlineInputBorder(),
-                    //toggle hidden pwd
+                    border: const OutlineInputBorder(),
                     suffixIcon: IconButton(
                       icon: Icon(
                         _obscurePassword
@@ -84,20 +97,53 @@ class userLoginState extends State<userLogin> {
                       },
                     ),
                   ),
-
-                  //obscure || visibile pwd
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Enter your password';
                     }
                     if (value.length < 8) {
-                      return 'At Least 8 characters';
+                      return 'At least 8 characters';
                     }
                     return null;
                   },
                 ),
 
-                const SizedBox(height: 16), //spazio tra pwd e login button
+                const SizedBox(height: 16),
+
+                // confirm password
+                TextFormField(
+                  obscureText: _obscureConfirmPassword,
+                  decoration: InputDecoration(
+                    labelText: 'Confirm Password',
+                    hintText: 'Repeat your password',
+                    prefixIcon: const Icon(Icons.lock_outline),
+                    border: const OutlineInputBorder(),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _obscureConfirmPassword
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _obscureConfirmPassword =
+                              !_obscureConfirmPassword;
+                        });
+                      },
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Confirm your password';
+                    }
+                    if (value != _passwordController.text) {
+                      return 'Passwords do not match';
+                    }
+                    return null;
+                  },
+                ),
+
+                const SizedBox(height: 16),
 
                 SizedBox(
                   width: double.infinity,
@@ -107,51 +153,36 @@ class userLoginState extends State<userLogin> {
                     ),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        // redirect to homePage
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (context) => HomePage()),
+                        // qui in futuro chiamerai l’API di registrazione
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Registration successful'),
+                          ),
                         );
                       }
                     },
                     child: const Padding(
                       padding: EdgeInsets.all(12),
                       child: Text(
-                        'LOGIN',
+                        'REGISTER',
                         style: TextStyle(fontSize: 16, color: Colors.white),
                       ),
                     ),
                   ),
                 ),
 
-                const SizedBox(height: 5),
+                const SizedBox(height: 8),
 
-                //create an Account
                 TextButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const RegisterPage(),
-                      ),
-                    );
-                  },
-                  child: const Text('or create an Account'),
-                ),
-
-                const SizedBox(height: 5),
-                
-                //forgot pwd
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (context) => const userLogin(),
                       ),
                     );
                   },
-                  child: const Text('Forgot Password'),
+                  child: const Text('Already have an account? Login'),
                 ),
               ],
             ),
