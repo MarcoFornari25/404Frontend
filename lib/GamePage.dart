@@ -11,21 +11,23 @@ class _GamePageState extends State<GamePage> {
   int selectedCharacterIndex = 0;
   final List<Map<String, String>> characters = [
     {
-      'name': 'Guts',
-      'image':
-          'https://wallpapercave.com/wp/wp2740235.jpg',
+      'name': 'Guts', 
+    'image': 'https://artfiles.alphacoders.com/152/thumb-1920-152041.jpg'
     },
-    {'name': 'Griffith',
-     'image': 'https://i.redd.it/26dhb33dwgwb1.jpg'},
+
+    {
+      'name': 'Griffith', 
+      'image': 'https://i.redd.it/26dhb33dwgwb1.jpg'
+      },
     {
       'name': 'Casca',
       'image':
-          'https://preview.redd.it/why-so-cute-and-pretty-casca-v0-si3nrbluai5c1.jpg?width=630&format=pjpg&auto=webp&s=f6941ed658f2239294506f7844d481fd199d2edc',
+          'https://wallpapers.com/images/high/berserk-4k-casca-wearing-armour-03jvqr1dro5j6din.webp',
     },
     {
       'name': 'Zodd',
       'image':
-          'https://preview.redd.it/what-is-your-opinion-on-zodd-v0-l7w9ki1xsgye1.jpeg?auto=webp&s=63c8950720bd77add831535553d1cc30c5d8f51f',
+          'https://citynews-romatoday.stgy.ovh/~media/horizontal-hi/13212500877232/totti-con-watermark-2.jpg',
     },
   ];
 
@@ -117,56 +119,56 @@ class _GamePageState extends State<GamePage> {
   /*METODI COLONNA DI DESTRA*/
   //Character Header
   Widget characterHeader() {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: List.generate(characters.length, (index) {
-            final bool isSelected = index == selectedCharacterIndex;
+  return SingleChildScrollView(
+    scrollDirection: Axis.horizontal,
+    child: Row(
+      children: List.generate(characters.length, (index) {
+        final bool isSelected = index == selectedCharacterIndex;
 
-            return GestureDetector(
-              onTap: () {
-                setState(() {
-                  selectedCharacterIndex = index;
-                });
-              },
-              child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 8),
-                child: Column(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(3),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: isSelected ? Colors.white : Colors.transparent,
-                          width: 2,
-                        ),
-                      ),
-                      child: CircleAvatar(
-                        radius: 22,
-                        backgroundImage: NetworkImage(
-                          characters[index]['image']!,
-                        ),
-                      ),
+        return GestureDetector(
+          onTap: () {
+            setState(() {
+              selectedCharacterIndex = index;
+            });
+          },
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 8),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(3),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: isSelected ? Colors.white : Colors.transparent,
+                      width: 2,
                     ),
-                    const SizedBox(height: 10),
-                    Text(
-                      characters[index]['name']!,
-                      style: TextStyle(
-                        color: isSelected ? Colors.white : Colors.white70,
-                        fontSize: 12,
-                      ),
+                  ),
+                  child: CircleAvatar(
+                    radius: 22,
+                    backgroundImage: NetworkImage(
+                      characters[index]['image']!,
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            );
-          }),
-        ),
-      ],
-    );
-  }
+                const SizedBox(height: 6),
+                Text(
+                  characters[index]['name']!,
+                  style: TextStyle(
+                    color: isSelected ? Colors.white : Colors.white70,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      }),
+    ),
+  );
+}
+
 
   //*Build*//
   @override
