@@ -10,25 +10,15 @@ class GamePage extends StatefulWidget {
 class _GamePageState extends State<GamePage> {
   int selectedCharacterIndex = 0;
   final List<Map<String, String>> characters = [
-    {
-      'name': 'Guts', 
-    'image': 'https://artfiles.alphacoders.com/152/thumb-1920-152041.jpg'
-    },
+    {'name': 'Guts', 'image': 'https://i.redd.it/39mwrodj1x2g1.jpeg'},
 
-    {
-      'name': 'Griffith', 
-      'image': 'https://i.redd.it/26dhb33dwgwb1.jpg'
-      },
+    {'name': 'Griffith', 'image': 'https://i.redd.it/26dhb33dwgwb1.jpg'},
     {
       'name': 'Casca',
       'image':
           'https://wallpapers.com/images/high/berserk-4k-casca-wearing-armour-03jvqr1dro5j6din.webp',
     },
-    {
-      'name': 'Zodd',
-      'image':
-          'https://citynews-romatoday.stgy.ovh/~media/horizontal-hi/13212500877232/totti-con-watermark-2.jpg',
-    },
+    {'name': 'Zodd', 'image': 'https://i.redd.it/1aisli3bijl91.png'},
   ];
 
   //**metodi colonna di sinistra**
@@ -119,57 +109,120 @@ class _GamePageState extends State<GamePage> {
   /*METODI COLONNA DI DESTRA*/
   //Character Header
   Widget characterHeader() {
-  return SingleChildScrollView(
-    scrollDirection: Axis.horizontal,
-    child: Row(
-      children: List.generate(characters.length, (index) {
-        final bool isSelected = index == selectedCharacterIndex;
+    return SingleChildScrollView(
+      //questo rende scrollable orizzontalmente la view
+      scrollDirection: Axis.horizontal, //o meglio questo lo fa orizzontalmetne
+      child: Row(
+        children: List.generate(characters.length, (index) {
+          final bool isSelected = index == selectedCharacterIndex;
 
-        return GestureDetector(
-          onTap: () {
-            setState(() {
-              selectedCharacterIndex = index;
-            });
-          },
-          child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 8),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(3),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: isSelected ? Colors.white : Colors.transparent,
-                      width: 2,
+          return GestureDetector(
+            onTap: () {
+              setState(() {
+                selectedCharacterIndex = index;
+              });
+            },
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 8),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(3),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: isSelected ? Colors.white : Colors.transparent,
+                        width: 2,
+                      ),
+                    ),
+                    child: CircleAvatar(
+                      radius: 22,
+                      backgroundImage: NetworkImage(
+                        characters[index]['image']!,
+                      ),
                     ),
                   ),
-                  child: CircleAvatar(
-                    radius: 22,
-                    backgroundImage: NetworkImage(
-                      characters[index]['image']!,
+                  //spazio tra circle e sotto 
+                  const SizedBox(height: 6),
+                  //definisco nome characters
+                  Text(
+                    characters[index]['name']!,
+                    style: TextStyle(
+                      color: isSelected ? Colors.white : Colors.white70,
+                      fontSize: 12,
                     ),
                   ),
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  characters[index]['name']!,
-                  style: TextStyle(
-                    color: isSelected ? Colors.white : Colors.white70,
-                    fontSize: 12,
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
+          );
+        }),
+      ),
+    );
+  }
+
+  //Character Tabs
+Widget CharacterTabs (){
+ return Row(
+    children: [
+      Expanded(
+        child: Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: const Color.fromARGB(211, 0, 0, 0)),
           ),
-        );
-      }),
-    ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: const [
+              Text('120', style: TextStyle(fontSize: 18)),
+              SizedBox(height: 4),
+              Text('HP', style: TextStyle(fontSize: 12)),
+            ],
+          ),
+        ),
+      ),
+      //spazio tra row
+      const SizedBox(width: 8),
+      Expanded(
+        child: Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color:  const Color.fromARGB(211, 0, 0, 0)),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: const [
+              Text('80', style: TextStyle(fontSize: 18)),
+              SizedBox(height: 4),
+              Text('ATK', style: TextStyle(fontSize: 12)),
+            ],
+          ),
+        ),
+      ),
+      const SizedBox(width: 8),
+      Expanded(
+        child: Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+          border: Border.all(color:  const Color.fromARGB(211, 0, 0, 0)),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: const [
+              Text('60', style: TextStyle(fontSize: 18)),
+              SizedBox(height: 4),
+              Text('DEF', style: TextStyle(fontSize: 12)),
+            ],
+          ),
+        ),
+      ),
+    ],
   );
 }
-
-
   //*Build*//
   @override
   Widget build(BuildContext context) {
@@ -178,7 +231,7 @@ class _GamePageState extends State<GamePage> {
         children: [
           // LEFT COLUMN
           Expanded(
-            flex: 2,
+            flex: 3,
             child: Container(
               color: Colors.grey.shade200,
               child: Column(
@@ -208,10 +261,10 @@ class _GamePageState extends State<GamePage> {
                     ),
                   ),
                   Container(
-                    height: 50,
-                    color: Colors.yellow,
+                    height: 80,
+                    color: const Color.fromARGB(255, 184, 183, 181),
                     alignment: Alignment.center,
-                    child: const Text('CharacterTabs'),
+                    child: CharacterTabs(),
                   ),
                   Expanded(
                     child: Container(
