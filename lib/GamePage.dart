@@ -9,16 +9,37 @@ class GamePage extends StatefulWidget {
 
 class _GamePageState extends State<GamePage> {
   int selectedCharacterIndex = 0;
-  final List<Map<String, String>> characters = [
-    {'name': 'Guts', 'image': 'https://i.redd.it/39mwrodj1x2g1.jpeg'},
+  final List<Map<String, dynamic>> characters = [
+    {
+      'name': 'Guts',
+      'image': 'https://i.redd.it/39mwrodj1x2g1.jpeg',
+      'hp': 160,
+      'atk': 15,
+      'def': 10,
+    },
+    {
+      'name': 'Griffith',
+      'image': 'https://i.redd.it/26dhb33dwgwb1.jpg',
+      'hp': 120,
+      'atk': 20,
+      'def': 8,
+    },
 
-    {'name': 'Griffith', 'image': 'https://i.redd.it/26dhb33dwgwb1.jpg'},
     {
       'name': 'Casca',
       'image':
           'https://wallpapers.com/images/high/berserk-4k-casca-wearing-armour-03jvqr1dro5j6din.webp',
+      'hp': 100,
+      'atk': 12,
+      'def': 9,
     },
-    {'name': 'Zodd', 'image': 'https://i.redd.it/1aisli3bijl91.png'},
+    {
+      'name': 'Zodd',
+      'image': 'https://i.redd.it/1aisli3bijl91.png',
+      'hp': 200,
+      'atk': 30,
+      'def': 20,
+    },
   ];
 
   //**metodi colonna di sinistra**
@@ -143,7 +164,7 @@ class _GamePageState extends State<GamePage> {
                       ),
                     ),
                   ),
-                  //spazio tra circle e sotto 
+                  //spazio tra circle e sotto
                   const SizedBox(height: 6),
                   //definisco nome characters
                   Text(
@@ -163,66 +184,65 @@ class _GamePageState extends State<GamePage> {
   }
 
   //Character Tabs
-Widget CharacterTabs (){
- return Row(
-    children: [
-      Expanded(
-        child: Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: const Color.fromARGB(211, 0, 0, 0)),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: const [
-              Text('120', style: TextStyle(fontSize: 18)),
-              SizedBox(height: 4),
-              Text('HP', style: TextStyle(fontSize: 12)),
-            ],
-          ),
-        ),
-      ),
-      //spazio tra row
-      const SizedBox(width: 8),
-      Expanded(
-        child: Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color:  const Color.fromARGB(211, 0, 0, 0)),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: const [
-              Text('80', style: TextStyle(fontSize: 18)),
-              SizedBox(height: 4),
-              Text('ATK', style: TextStyle(fontSize: 12)),
-            ],
+  Widget CharacterTabs() {
+    return Row(
+      children: [
+        Expanded(
+          child: Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: const Color.fromARGB(211, 0, 0, 0)),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('HP'),
+                Text(characters[selectedCharacterIndex]['hp'].toString()),
+              ],
+            ),
           ),
         ),
-      ),
-      const SizedBox(width: 8),
-      Expanded(
-        child: Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-          border: Border.all(color:  const Color.fromARGB(211, 0, 0, 0)),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: const [
-              Text('60', style: TextStyle(fontSize: 18)),
-              SizedBox(height: 4),
-              Text('DEF', style: TextStyle(fontSize: 12)),
-            ],
+        //spazio tra row
+        const SizedBox(width: 8),
+        Expanded(
+          child: Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: const Color.fromARGB(211, 0, 0, 0)),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('ATK'),
+                Text(characters[selectedCharacterIndex]['atk'].toString()),
+              ],
+            ),
           ),
         ),
-      ),
-    ],
-  );
-}
+        const SizedBox(width: 8),
+        Expanded(
+          child: Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: const Color.fromARGB(211, 0, 0, 0)),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(height: 4),
+                Text('DEF'),
+                Text(characters[selectedCharacterIndex]['def'].toString()),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   //*Build*//
   @override
   Widget build(BuildContext context) {
