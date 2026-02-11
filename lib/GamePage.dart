@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class GamePage extends StatefulWidget {
@@ -14,31 +15,59 @@ class _GamePageState extends State<GamePage> {
       'name': 'Guts',
       'image': 'https://i.redd.it/39mwrodj1x2g1.jpeg',
       'hp': 160,
+      'lvl': 2,
       'atk': 15,
       'def': 10,
+      'strength': 18,
+      'constitution': 17,
+      'wisdom': 12,
+      'dexterity': 14,
+      'intelligence': 10,
+      'charisma': 11,
     },
     {
       'name': 'Griffith',
       'image': 'https://i.redd.it/26dhb33dwgwb1.jpg',
       'hp': 120,
+      'lvl': 4,
       'atk': 20,
       'def': 8,
+      'strength': 13,
+      'constitution': 12,
+      'wisdom': 16,
+      'dexterity': 17,
+      'intelligence': 18,
+      'charisma': 19,
     },
-
     {
       'name': 'Casca',
       'image':
           'https://wallpapers.com/images/high/berserk-4k-casca-wearing-armour-03jvqr1dro5j6din.webp',
       'hp': 100,
+      'lvl': 1,
       'atk': 12,
       'def': 9,
+      'strength': 14,
+      'constitution': 13,
+      'wisdom': 13,
+      'dexterity': 16,
+      'intelligence': 11,
+      'charisma': 12,
     },
     {
       'name': 'Zodd',
-      'image': 'https://i.redd.it/1aisli3bijl91.png',
+      'image':
+          'https://static0.gamerantimages.com/wordpress/wp-content/uploads/2024/11/nosferatu-zodd-berserk.jpg?q=70&fit=crop&w=1296&h=891&dpr=1',
       'hp': 200,
+      'lvl': 3,
       'atk': 30,
       'def': 20,
+      'strength': 20,
+      'constitution': 19,
+      'wisdom': 10,
+      'dexterity': 15,
+      'intelligence': 9,
+      'charisma': 14,
     },
   ];
 
@@ -184,7 +213,7 @@ class _GamePageState extends State<GamePage> {
   }
 
   //Character Tabs
-  Widget CharacterTabs() {
+  Widget characterTabs() {
     return Row(
       children: [
         Expanded(
@@ -243,6 +272,79 @@ class _GamePageState extends State<GamePage> {
     );
   }
 
+  //Character Content
+  Widget characterContent() {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            //HP
+            Text('HP'),
+            Text(characters[selectedCharacterIndex]['hp'].toString()),
+            //LVL
+             Text('Level'),
+             Text(characters[selectedCharacterIndex]['lvl'].toString())
+             ],
+        ),
+        //spazio tra sopra e sotto
+       const SizedBox(height: 8),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Expanded(
+              child: Column(
+                children: [
+                  //strenght
+                  Text('Strength'),
+                  Text(
+                    characters[selectedCharacterIndex]['strength'] 
+                        .toString(),
+                  ),
+
+                  //Costitution
+                  Text('Constitution'),
+                  Text(
+                    characters[selectedCharacterIndex]['constitution'] 
+                        .toString(),
+                  ),
+                  //Wisdom
+                  Text('Wisdom'),
+                  Text(characters[selectedCharacterIndex]['wisdom'].toString()),
+                ],
+              ),
+            ),
+
+            //spazio tra i due expanded
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                children: [
+                  //Dexterity
+                  Text('Dexterity'),
+                  Text(
+                    characters[selectedCharacterIndex]['dexterity'].toString(),
+                  ),
+                  //Intelligence
+                  Text('Intelligence'),
+                  Text(
+                    characters[selectedCharacterIndex]['intelligence']
+                        .toString(),
+                  ),
+                  //Charisma
+                  Text('Charisma'),
+                  Text(
+                    characters[selectedCharacterIndex]['charisma'].toString(),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
   //*Build*//
   @override
   Widget build(BuildContext context) {
@@ -284,13 +386,13 @@ class _GamePageState extends State<GamePage> {
                     height: 80,
                     color: const Color.fromARGB(255, 184, 183, 181),
                     alignment: Alignment.center,
-                    child: CharacterTabs(),
+                    child: characterTabs(),
                   ),
                   Expanded(
                     child: Container(
                       color: Colors.white,
                       alignment: Alignment.center,
-                      child: const Text('CharacterContent'),
+                      child: characterContent(),
                     ),
                   ),
                 ],
