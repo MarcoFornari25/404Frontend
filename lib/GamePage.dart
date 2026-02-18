@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+
 class GamePage extends StatefulWidget {
   const GamePage({super.key});
 
@@ -214,136 +215,116 @@ class _GamePageState extends State<GamePage> {
 
   //Character Tabs
   Widget characterTabs() {
-    return Row(
-      children: [
-        Expanded(
-          child: Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: const Color.fromARGB(211, 0, 0, 0)),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text('HP'),
-                Text(characters[selectedCharacterIndex]['hp'].toString()),
-              ],
-            ),
-          ),
-        ),
-        //spazio tra row
-        const SizedBox(width: 8),
-        Expanded(
-          child: Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: const Color.fromARGB(211, 0, 0, 0)),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text('ATK'),
-                Text(characters[selectedCharacterIndex]['atk'].toString()),
-              ],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        children: [
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: const Color.fromARGB(211, 0, 0, 0)),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('HP'),
+                  Text(characters[selectedCharacterIndex]['hp'].toString()),
+                ],
+              ),
             ),
           ),
-        ),
-        const SizedBox(width: 8),
-        Expanded(
-          child: Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: const Color.fromARGB(211, 0, 0, 0)),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(height: 4),
-                Text('DEF'),
-                Text(characters[selectedCharacterIndex]['def'].toString()),
-              ],
+          //spazio tra row
+          const SizedBox(width: 8),
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: const Color.fromARGB(211, 0, 0, 0)),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('ATK'),
+                  Text(characters[selectedCharacterIndex]['atk'].toString()),
+                ],
+              ),
             ),
           ),
-        ),
-      ],
+          const SizedBox(width: 8),
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: const Color.fromARGB(211, 0, 0, 0)),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(height: 4),
+                  Text('DEF'),
+                  Text(characters[selectedCharacterIndex]['def'].toString()),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
   //Character Content
-  Widget characterContent() {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            //HP
-            Text('HP'),
-            Text(characters[selectedCharacterIndex]['hp'].toString()),
-            //LVL
-             Text('Level'),
-             Text(characters[selectedCharacterIndex]['lvl'].toString())
-             ],
+ Widget characterContent() {
+  final character = characters[selectedCharacterIndex];
+
+  final stats = [
+    {'label': 'HP', 'value': character['hp']},
+    {'label': 'Level', 'value': character['lvl']},
+    {'label': 'ATK', 'value': character['atk']},
+    {'label': 'DEF', 'value': character['def']},
+    {'label': 'Strength', 'value': character['strength']},
+    {'label': 'Constitution', 'value': character['constitution']},
+    {'label': 'Wisdom', 'value': character['wisdom']},
+    {'label': 'Dexterity', 'value': character['dexterity']},
+    {'label': 'Intelligence', 'value': character['intelligence']},
+    {'label': 'Charisma', 'value': character['charisma']},
+  ];
+
+  return GridView.builder(
+    padding: const EdgeInsets.all(16),
+    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: 2, // 2 colonne
+      crossAxisSpacing: 12,
+      mainAxisSpacing: 12,
+      childAspectRatio: 2, // forma box
+    ),
+    itemCount: stats.length,
+    itemBuilder: (context, index) {
+      return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.black26),
         ),
-        //spazio tra sopra e sotto
-       const SizedBox(height: 8),
-        Row(
-          mainAxisSize: MainAxisSize.min,
+        alignment: Alignment.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Expanded(
-              child: Column(
-                children: [
-                  //strenght
-                  Text('Strength'),
-                  Text(
-                    characters[selectedCharacterIndex]['strength'] 
-                        .toString(),
-                  ),
-
-                  //Costitution
-                  Text('Constitution'),
-                  Text(
-                    characters[selectedCharacterIndex]['constitution'] 
-                        .toString(),
-                  ),
-                  //Wisdom
-                  Text('Wisdom'),
-                  Text(characters[selectedCharacterIndex]['wisdom'].toString()),
-                ],
-              ),
+            Text(
+              stats[index]['label'],
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
-
-            //spazio tra i due expanded
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                children: [
-                  //Dexterity
-                  Text('Dexterity'),
-                  Text(
-                    characters[selectedCharacterIndex]['dexterity'].toString(),
-                  ),
-                  //Intelligence
-                  Text('Intelligence'),
-                  Text(
-                    characters[selectedCharacterIndex]['intelligence']
-                        .toString(),
-                  ),
-                  //Charisma
-                  Text('Charisma'),
-                  Text(
-                    characters[selectedCharacterIndex]['charisma'].toString(),
-                  ),
-                ],
-              ),
-            ),
+            const SizedBox(height: 4),
+            Text(stats[index]['value'].toString()),
           ],
         ),
-      ],
-    );
-  }
+      );
+    },
+  );
+}
+
 
   //*Build*//
   @override
