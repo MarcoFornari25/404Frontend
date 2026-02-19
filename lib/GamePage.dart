@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
+import 'services/auth_service.dart';
+import 'services/user_pages/loginPage.dart';
+import 'package:animated_cards_carousel/animated_cards_carousel.dart';
 
 class GamePage extends StatefulWidget {
   const GamePage({super.key});
@@ -10,7 +12,13 @@ class GamePage extends StatefulWidget {
 }
 
 class _GamePageState extends State<GamePage> {
+  //usato quando utilizzo una pageView()
+  //mi permette di cambiare pagina
+  late PageController _pageController;
   int selectedCharacterIndex = 0;
+
+  final AuthService _authService = AuthService();
+
   final List<Map<String, dynamic>> characters = [
     {
       'name': 'Guts',
@@ -71,6 +79,14 @@ class _GamePageState extends State<GamePage> {
       'charisma': 14,
     },
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(
+      viewportFraction: 0.7,
+    ); //indica la frazione che occuperà l'immagine nello spazio
+  }
 
   //**metodi colonna di sinistra**
   //Game Chat
@@ -172,7 +188,14 @@ class _GamePageState extends State<GamePage> {
               setState(() {
                 selectedCharacterIndex = index;
               });
+
+              _pageController.animateToPage(
+                index,
+                duration: Duration(milliseconds: 400),
+                curve: Curves.easeInOut,
+              );
             },
+
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 8),
               child: Column(
@@ -277,54 +300,52 @@ class _GamePageState extends State<GamePage> {
   }
 
   //Character Content
- Widget characterContent() {
-  final character = characters[selectedCharacterIndex];
+  Widget characterContent() {
+    final character = characters[selectedCharacterIndex];
 
-  final stats = [
-    {'label': 'HP', 'value': character['hp']},
-    {'label': 'Level', 'value': character['lvl']},
-    {'label': 'ATK', 'value': character['atk']},
-    {'label': 'DEF', 'value': character['def']},
-    {'label': 'Strength', 'value': character['strength']},
-    {'label': 'Constitution', 'value': character['constitution']},
-    {'label': 'Wisdom', 'value': character['wisdom']},
-    {'label': 'Dexterity', 'value': character['dexterity']},
-    {'label': 'Intelligence', 'value': character['intelligence']},
-    {'label': 'Charisma', 'value': character['charisma']},
-  ];
+    final stats = [
+      {'label': 'HP', 'value': character['hp']},
+      {'label': 'Level', 'value': character['lvl']},
+      {'label': 'Strength', 'value': character['strength']},
+      {'label': 'Constitution', 'value': character['constitution']},
+      {'label': 'Wisdom', 'value': character['wisdom']},
+      {'label': 'Dexterity', 'value': character['dexterity']},
+      {'label': 'Intelligence', 'value': character['intelligence']},
+      {'label': 'Charisma', 'value': character['charisma']},
+    ];
 
-  return GridView.builder(
-    padding: const EdgeInsets.all(16),
-    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-      crossAxisCount: 2, // 2 colonne
-      crossAxisSpacing: 12,
-      mainAxisSpacing: 12,
-      childAspectRatio: 2, // forma box
-    ),
-    itemCount: stats.length,
-    itemBuilder: (context, index) {
-      return Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.black26),
-        ),
-        alignment: Alignment.center,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              stats[index]['label'],
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 4),
-            Text(stats[index]['value'].toString()),
-          ],
-        ),
-      );
-    },
-  );
-}
-
+    return GridView.builder(
+      padding: const EdgeInsets.all(16),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2, // 2 colonne
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 12,
+        childAspectRatio: 2, // forma box
+      ),
+      itemCount: stats.length,
+      //funzione callback ritorno Container per ogni elemento della griglia
+      itemBuilder: (context, index) {
+        return Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Colors.black26),
+          ),
+          alignment: Alignment.center,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                stats[index]['label'],
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 4),
+              Text(stats[index]['value'].toString()),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   //*Build*//
   @override
@@ -346,23 +367,84 @@ class _GamePageState extends State<GamePage> {
           // RIGHT COLUMN
           Expanded(
             child: Container(
-              color: Colors.grey.shade300,
+              color: Color.fromRGBO(227, 0, 57, 1),
               child: Column(
                 children: [
+                  //Logout button
+                  Container(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 12),
+                      child: ElevatedButton.icon(
+                        onPressed: () async {
+                          await _authService.logout();
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (_) => userLogin()),
+                          );
+                        },
+                        icon: const Icon(Icons.logout, color: Colors.white),
+                        label: const Text(
+                          'Logout',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  //Header Personaggi
                   Container(
                     height: 90,
                     color: Color.fromRGBO(227, 0, 57, 1),
                     alignment: Alignment.center,
                     child: characterHeader(),
                   ),
+
+                  //Immagine Personaggi
                   SizedBox(
-                    height: 200,
-                    child: Image.network(
-                      characters[selectedCharacterIndex]['image']!,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
+                    height: 150,
+                    child: PageView.builder(
+                      controller: _pageController,
+                      onPageChanged: (index) {
+                        setState(() {
+                          selectedCharacterIndex = index;
+                        });
+                      },
+                      itemCount: characters.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(16),
+                            child: Image.network(
+                              characters[index]['image']!,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ),
+                  SizedBox(height: 10),
+
+                  /*Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        signOut();
+                      },
+                      icon: Icon(Icons.logout),
+                      label: Text('Logout'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green,
+                      ),
+                    ),
+                  ),
+                  */
                   Container(
                     height: 80,
                     color: const Color.fromARGB(255, 184, 183, 181),
