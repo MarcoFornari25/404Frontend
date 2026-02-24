@@ -82,4 +82,41 @@ class AuthService {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove("jwt_token");
   }
+
+  //Forgot Password
+  Future<bool> forgotPassword(String email) async {
+  final url = Uri.parse("$baseUrl/Account/ForgotPassword");
+
+  final response = await http.post(
+    url,
+    headers: {"Content-Type": "application/json"},
+    body: jsonEncode({"email": email}),
+  );
+
+  return response.statusCode == 200;
+}
+
+//Reset Password
+final uri = Uri.parse(Uri.base.toString()); 
+final token = Uri.base.queryParameters['token'];
+
+Future<bool> resetPassword(
+  String email,
+  String password,
+  String token,
+) async {
+  final url = Uri.parse("$baseUrl/Account/ResetPassword");
+
+  final response = await http.post(
+    url,
+    headers: {"Content-Type": "application/json"},
+    body: jsonEncode({
+      "email": email,
+      "password": password,
+      "resetToken": token,
+    }),
+  );
+
+  return response.statusCode == 200;
+}
 }
