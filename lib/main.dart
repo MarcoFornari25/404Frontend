@@ -1,20 +1,25 @@
-  import 'package:flutter/material.dart';
-  import 'loginPage.dart';
-  void main() {
-    runApp(const MainApp());
-  }
+import 'package:flutter/material.dart';
+import 'package:frontend_404dungeon/GamePage.dart';
+import 'package:frontend_404dungeon/user_pages/recover_Password.dart';
+import 'user_pages/loginPage.dart';
 
-  class MainApp extends StatelessWidget {
-    const MainApp({super.key});
+void main() {
+  runApp(const MainApp());
+}
 
-    @override
-    Widget build(BuildContext context) {
-      return const MaterialApp(
-        home: Scaffold(
-          body: Center(
-            child: userLogin(),
-          ),
-        ),
-      );
-    }
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+  
+return MaterialApp(
+  debugShowCheckedModeBanner: false,
+  initialRoute: '/',
+  routes: {
+    '/': (context) => userLogin(),
+    '/reset-password': (context) => Recoverpage(),
+  },
+);
   }
+}
