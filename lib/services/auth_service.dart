@@ -85,24 +85,22 @@ class AuthService {
 
   //Forgot Password
   Future<bool> forgotPassword(String email) async {
-  final url = Uri.parse("$baseUrl/Account/ForgotPassword");
+    final url = Uri.parse("$baseUrl/Account/ForgotPassword");
 
-  final response = await http.post(
-    url,
-    headers: {"Content-Type": "application/json"},
-    body: jsonEncode({"email": email}),
-  );
+    final response = await http.post(
+      url,
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({"email": email}),
+    );
 
-  return response.statusCode == 200;
-}
+    return response.statusCode == 200;
+  }
 
-//Reset Password
-final uri = Uri.parse(Uri.base.toString()); 
-final token = Uri.base.queryParameters['token'];
-
+  //Reset Password
 Future<bool> resetPassword(
   String email,
   String password,
+  String confirmPassword,
   String token,
 ) async {
   final url = Uri.parse("$baseUrl/Account/ResetPassword");
@@ -113,6 +111,7 @@ Future<bool> resetPassword(
     body: jsonEncode({
       "email": email,
       "password": password,
+      "confirmPassword": confirmPassword,
       "resetToken": token,
     }),
   );

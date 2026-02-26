@@ -72,7 +72,10 @@ class RecoverpageState extends State<Recoverpage> {
                       return 'Enter your password';
                     }
                     if (value.length < 8) {
-                      return 'At Least 8 characters';
+                      return 'At least 8 characters';
+                    }
+                    if (value != passwordController.text) {
+                      return 'Passwords do not match';
                     }
                     return null;
                   },
@@ -132,7 +135,8 @@ class RecoverpageState extends State<Recoverpage> {
                         final fragmentUri = Uri.parse(fragment);
 
                         final token = fragmentUri.queryParameters['token'];
-                        final emailFromLink = fragmentUri.queryParameters['email'];
+                        final emailFromLink =
+                            fragmentUri.queryParameters['email'];
 
                         if (token == null) {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -148,7 +152,6 @@ class RecoverpageState extends State<Recoverpage> {
                         final emailToUse =
                             emailFromLink ?? emailController.text.trim();
 
-                        print("EMAIL USATA PER RESET: $emailToUse");
 
                         bool success = await _authService.resetPassword(
                           emailToUse,
@@ -177,7 +180,7 @@ class RecoverpageState extends State<Recoverpage> {
                     child: const Padding(
                       padding: EdgeInsets.all(12),
                       child: Text(
-                        'LOGIN',
+                        'Reset Password',
                         style: TextStyle(fontSize: 16, color: Colors.white),
                       ),
                     ),
@@ -186,33 +189,22 @@ class RecoverpageState extends State<Recoverpage> {
 
                 const SizedBox(height: 5),
 
-                //create an Account
-                TextButton(
+                //back to sign in 
+                    TextButton(
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const RegisterPage(),
+                        builder: (context) => const userLogin(),
                       ),
                     );
                   },
-                  child: const Text('or create an Account'),
+                  child: const Text('Back to sign in'),
                 ),
 
                 const SizedBox(height: 5),
 
-                //forgot pwd
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ForgotPassword(),
-                      ),
-                    );
-                  },
-                  child: const Text('Forgot Password'),
-                ),
+            
               ],
             ),
           ),

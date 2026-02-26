@@ -2,12 +2,12 @@ import 'dart:ui_web';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
 import 'package:flutter/material.dart';
-import 'package:frontend_404dungeon/GamePage.dart';
+import 'package:frontend_404dungeon/game_page.dart';
 import 'package:frontend_404dungeon/user_pages/recover_Password.dart';
-import 'user_pages/loginPage.dart';
+import 'user_pages/login_page.dart';
 
 void main() {
-  setUrlStrategy(const HashUrlStrategy());
+  
   runApp(const MainApp());
 }
 
