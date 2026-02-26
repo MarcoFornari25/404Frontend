@@ -44,6 +44,7 @@ class RecoverpageState extends State<Recoverpage> {
 
                 //password
                 TextFormField(
+                  controller: passwordController,
                   obscureText: _obscurePassword,
                   decoration: InputDecoration(
                     labelText: 'Password',
@@ -82,9 +83,10 @@ class RecoverpageState extends State<Recoverpage> {
 
                 //confirm password
                 TextFormField(
+                  controller: confirmPasswordController,
                   obscureText: _obscurePassword,
                   decoration: InputDecoration(
-                    labelText: 'Confirm email',
+                    labelText: 'Confirm password',
                     hintText: 'Enter your password',
                     prefixIcon: const Icon(Icons.lock_outline),
                     border: OutlineInputBorder(),
@@ -125,7 +127,12 @@ class RecoverpageState extends State<Recoverpage> {
                     ),
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        final token = Uri.base.queryParameters['token'];
+                        // Leggo token ed email dal link (# fragment)
+                        final fragment = Uri.base.fragment;
+                        final fragmentUri = Uri.parse(fragment);
+
+                        final token = fragmentUri.queryParameters['token'];
+                        final emailFromLink = fragmentUri.queryParameters['email'];
 
                         if (token == null) {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -137,9 +144,16 @@ class RecoverpageState extends State<Recoverpage> {
                           return;
                         }
 
+                        // Se NON passi email nel link, usa quella scritta nel campo
+                        final emailToUse =
+                            emailFromLink ?? emailController.text.trim();
+
+                        print("EMAIL USATA PER RESET: $emailToUse");
+
                         bool success = await _authService.resetPassword(
-                          emailController.text.trim(),
+                          emailToUse,
                           passwordController.text.trim(),
+                          confirmPasswordController.text.trim(),
                           token,
                         );
 
@@ -150,7 +164,6 @@ class RecoverpageState extends State<Recoverpage> {
                               backgroundColor: Colors.green,
                             ),
                           );
-
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(

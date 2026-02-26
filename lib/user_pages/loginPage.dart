@@ -50,7 +50,7 @@ class userLoginState extends State<userLogin> {
                   //validator
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Ao movite';
+                      return 'Enter your email';
                     }
                     //controllo per i caratteri
                     bool emailValid = RegExp(

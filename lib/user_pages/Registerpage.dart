@@ -36,7 +36,7 @@ class _RegisterPageState extends State<RegisterPage> {
               children: [
                 Image.asset('assets/images/logo.png'),
 
-                const SizedBox(height: 16),
+                const SizedBox(height: 1),
 
                 //proviamo a mettere le righe
                 // name
@@ -55,6 +55,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     return null;
                   },
                 ),
+                
+                const SizedBox (height: 5),
                 // surname
                 TextFormField(
                   controller: surnameController,
@@ -74,7 +76,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
                 //chiusura prima riga
 
-                //const SizedBox(height: 8),
+               const SizedBox (height: 5),
 
                 // email
                 TextFormField(
@@ -100,7 +102,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   },
                 ),
 
-                //const SizedBox(height: 8),
+                const SizedBox(height: 5),
 
                 // password
                 TextFormField(
@@ -135,7 +137,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   },
                 ),
 
-                //const SizedBox(height: 8),
+                const SizedBox(height: 5),
 
                 // confirm password
                 TextFormField(
