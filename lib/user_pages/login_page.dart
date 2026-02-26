@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:frontend_404dungeon/user_pages/Registerpage.dart';
-import 'package:frontend_404dungeon/user_pages/forgot_Password.dart';
-import '../GamePage.dart';
+import 'package:frontend_404dungeon/user_pages/register_page.dart';
+import 'package:frontend_404dungeon/user_pages/forgot_password.dart';
+import '../game_page.dart';
 import '../services/auth_service.dart';
 
 //Create Form Widget
